@@ -23,7 +23,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Food_Delivery')),
+      appBar: AppBar(title: Text('food_delivery')),
       drawer: Drawer(
         backgroundColor: Colors.white,
         child: Center(child: Text('You Are In The Drawer Now')),

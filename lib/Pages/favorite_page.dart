@@ -11,6 +11,9 @@ class FavoritesPage extends StatefulWidget {
 class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final landscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final favoriteFood = Food.where(
       (foodItem) => foodItem.IsFavorite == true,
     ).toList();
@@ -19,12 +22,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
       return Center(
         child: Column(
           children: [
-            Image.asset('assets/images/Empty.png', height: 300),
+            SizedBox(height: landscape ? size.height * 0.1 : size.height * 0.2),
+            Image.asset('assets/images/Empty.png', height: size.height * 0.25),
+            const SizedBox(height: 20),
             Text(
               'You Don\'t Have Any Favorites Yet!',
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.red,
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -45,7 +50,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
               children: [
                 Image.network(
                   favoriteFood[index].imageURL,
-                  height: MediaQuery.of(context).size.height * 0.09,
+                  height: landscape ? size.height * 0.2 : size.height * 0.09,
+                  width: size.width * 0.3,
                 ),
                 const SizedBox(width: 12.0),
                 Expanded(
@@ -83,7 +89,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   },
                   icon: Icon(Icons.favorite),
                   color: Theme.of(context).primaryColor,
-                  iconSize: 30,
+                  iconSize: landscape
+                      ? size.height * 0.08
+                      : size.height * 0.035,
                 ),
               ],
             ),
