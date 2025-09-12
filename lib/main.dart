@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/Pages/bottom_navbar.dart';
+import 'package:food_delivery/Pages/food_details.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +24,10 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Delivery_App.Flutter',
-      home: const BottomNavBarPage(),
+      routes: {
+        '/': (context) => const BottomNavBarPage(),
+        FoodDetails.routeName: (context) => const FoodDetails(),
+      },
     );
   }
 }

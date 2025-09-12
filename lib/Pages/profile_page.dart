@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/Utilities/app_assets.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -50,13 +51,13 @@ class ProfilePage extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          image: DecorationImage(image: AssetImage('assets/images/Me.jpg')),
+          image: DecorationImage(image: AssetImage(appAssets.profilePhoto)),
         ),
       );
     }
 
     final personname = Text(
-      'khabib nurmagomedov',
+      'UserName',
       style: Theme.of(
         context,
       ).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.w600),

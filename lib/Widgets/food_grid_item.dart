@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/Models/food_item.dart';
+import 'package:food_delivery/Widgets/favorite_button.dart';
 
-class FoodGridItem extends StatefulWidget {
+class FoodGridItem extends StatelessWidget {
   final int foodIndex;
+  final List<FoodItem> filteredFood;
 
-  const FoodGridItem({super.key, required this.foodIndex});
+  const FoodGridItem({
+    super.key,
+    required this.foodIndex,
+    required this.filteredFood,
+  });
 
-  @override
-  State<FoodGridItem> createState() => _FoodGridItemState();
-}
-
-class _FoodGridItemState extends State<FoodGridItem> {
   @override
   Widget build(BuildContext context) {
+    final targatedIndex = Food.indexOf(filteredFood[foodIndex]);
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white60,
@@ -28,38 +31,23 @@ class _FoodGridItemState extends State<FoodGridItem> {
                 alignment: Alignment.topCenter,
                 children: [
                   Image.network(
-                    Food[widget.foodIndex].imageURL,
+                    filteredFood[foodIndex].imageURL,
                     height: constraints.maxHeight * 0.55,
                     fit: BoxFit.contain,
                   ),
                   Align(
                     alignment: Alignment.topRight,
-                    child: InkWell(
-                      onTap: () => setState(() {
-                        Food[widget.foodIndex] = Food[widget.foodIndex]
-                            .copyWith(IsFavorite: true);
-                      }),
-                      child: Container(
-                        height: constraints.maxHeight * 0.2,
-                        width: constraints.maxWidth * 0.2,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.grey[100],
-                        ),
-                        child: Icon(
-                          Food[widget.foodIndex].IsFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
+                    child: FavoriteButton(
+                      foodIndex: targatedIndex,
+                      height: constraints.maxHeight * 0.2,
+                      width: constraints.maxWidth * 0.2,
                     ),
                   ),
                 ],
               ),
               SizedBox(height: constraints.maxHeight * 0.025),
               Text(
-                Food[widget.foodIndex].name,
+                filteredFood[foodIndex].name,
                 style: TextStyle(
                   fontSize: constraints.maxHeight * 0.12,
                   fontWeight: FontWeight.bold,
@@ -68,7 +56,7 @@ class _FoodGridItemState extends State<FoodGridItem> {
 
               SizedBox(height: constraints.maxHeight * 0.04),
               Text(
-                '\$ ${Food[widget.foodIndex].price}',
+                '\$ ${filteredFood[foodIndex].price}',
                 style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: constraints.maxHeight * 0.11,

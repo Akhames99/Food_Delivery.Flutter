@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/Models/food_item.dart';
+import 'package:food_delivery/Pages/food_details.dart';
+import 'package:food_delivery/Utilities/app_assets.dart';
 
 class FavoritesPage extends StatefulWidget {
   const FavoritesPage({super.key});
@@ -23,7 +25,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         child: Column(
           children: [
             SizedBox(height: landscape ? size.height * 0.1 : size.height * 0.2),
-            Image.asset('assets/images/Empty.png', height: size.height * 0.25),
+            Image.asset(appAssets.emptyState, height: size.height * 0.25),
             const SizedBox(height: 20),
             Text(
               'You Don\'t Have Any Favorites Yet!',
@@ -42,58 +44,66 @@ class _FavoritesPageState extends State<FavoritesPage> {
       padding: const EdgeInsets.all(16.0),
       child: ListView.builder(
         itemCount: favoriteFood.length,
-        itemBuilder: (context, index) => Card(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Image.network(
-                  favoriteFood[index].imageURL,
-                  height: landscape ? size.height * 0.2 : size.height * 0.09,
-                  width: size.width * 0.3,
-                ),
-                const SizedBox(width: 12.0),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        favoriteFood[index].name,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        '\$ ${favoriteFood[index].price}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ],
+        itemBuilder: (context, index) => InkWell(
+          onTap: () {
+            int targetedIndex = Food.indexOf(favoriteFood[index]);
+            Navigator.of(context)
+                .pushNamed(FoodDetails.routeName, arguments: targetedIndex)
+                .then((onValue) => setState(() {}));
+          },
+          child: Card(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Image.network(
+                    favoriteFood[index].imageURL,
+                    height: landscape ? size.height * 0.2 : size.height * 0.09,
+                    width: size.width * 0.3,
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    final targetedItem = favoriteFood[index];
-                    int targetedIndex = Food.indexOf(targetedItem);
-                    setState(() {
-                      Food[targetedIndex] = Food[targetedIndex].copyWith(
-                        IsFavorite: false,
-                      );
-                      favoriteFood.remove(targetedItem);
-                    });
-                  },
-                  icon: Icon(Icons.favorite),
-                  color: Theme.of(context).primaryColor,
-                  iconSize: landscape
-                      ? size.height * 0.08
-                      : size.height * 0.035,
-                ),
-              ],
+                  const SizedBox(width: 12.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          favoriteFood[index].name,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          '\$ ${favoriteFood[index].price}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      final targetedItem = favoriteFood[index];
+                      int targetedIndex = Food.indexOf(targetedItem);
+                      setState(() {
+                        Food[targetedIndex] = Food[targetedIndex].copyWith(
+                          IsFavorite: false,
+                        );
+                        favoriteFood.remove(targetedItem);
+                      });
+                    },
+                    icon: Icon(Icons.favorite),
+                    color: Theme.of(context).primaryColor,
+                    iconSize: landscape
+                        ? size.height * 0.08
+                        : size.height * 0.035,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
